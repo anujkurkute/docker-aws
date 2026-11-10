@@ -33,6 +33,12 @@
       "Effect": "Allow",
       "Action": "ssm:GetCommandInvocation",
       "Resource": "*"
-    }
+    },
+    {
+  "Sid": "SSMDescribeInstances",
+  "Effect": "Allow",
+  "Action": "ssm:DescribeInstanceInformation",
+  "Resource": "*"
+}
   ]
 }
