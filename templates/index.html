@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Docker Task Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        button {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #5568d3;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-item {
+            background: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+        
+        .task-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .task-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+        
+        .task-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .task-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .delete-btn {
+            background: #e74c3c;
+        }
+        
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #666;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐳 Docker Learning Task Manager</h1>
+        <p class="subtitle">A Flask app running in Docker containers</p>
+        
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        
+        <ul class="task-list" id="taskList">
+            <li class="loading">Loading tasks...</li>
+        </ul>
+    </div>
+
+    <script>
+        // Load tasks when page loads
+        document.addEventListener('DOMContentLoaded', loadTasks);
+
+        // Load tasks from API
+        async function loadTasks() {
+            try {
+                const response = await fetch('/api/tasks');
+                const tasks = await response.json();
+                renderTasks(tasks);
+            } catch (error) {
+                console.error('Error loading tasks:', error);
+                document.getElementById('taskList').innerHTML = 
+                    '<li class="loading">Error loading tasks. Make sure the Flask API is running!</li>';
+            }
+        }
+
+        // Render tasks to the DOM
+        function renderTasks(tasks) {
+            const taskList = document.getElementById('taskList');
+            
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<li class="loading">No tasks yet. Add one above!</li>';
+                return;
+            }
+            
+            taskList.innerHTML = tasks.map(task => `
+                <li class="task-item ${task.completed ? 'completed' : ''}">
+                    <div class="task-content">
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                               onchange="toggleTask(${task.id})">
+                        <span>${task.title}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="delete-btn" onclick="deleteTask(${task.id})">Delete</button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        // Add a new task
+        async function addTask() {
+            const input = document.getElementById('taskInput');
+            const title = input.value.trim();
+            
+            if (!title) {
+                alert('Please enter a task title');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/tasks', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title: title })
+                });
+                
+                if (response.ok) {
+                    input.value = '';
+                    loadTasks();
+                }
+            } catch (error) {
+                console.error('Error adding task:', error);
+                alert('Error adding task. Please try again.');
+            }
+        }
+
+        // Toggle task completion
+        async function toggleTask(id) {
+            try {
+                const response = await fetch(`/api/tasks/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ completed: event.target.checked })
+                });
+                
+                if (response.ok) {
+                    loadTasks();
+                }
+            } catch (error) {
+                console.error('Error updating task:', error);
+            }
+        }
+
+        // Delete a task
+        async function deleteTask(id) {
+            if (!confirm('Are you sure you want to delete this task?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/tasks/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    loadTasks();
+                }
+            } catch (error) {
+                console.error('Error deleting task:', error);
+                alert('Error deleting task. Please try again.');
+            }
+        }
+
+        // Allow adding task with Enter key
+        document.getElementById('taskInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+    </script>
+</body>
+</html>
+

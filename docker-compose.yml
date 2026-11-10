@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database service
+  db:
+    image: postgres:15-alpine
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=flaskuser
+      - POSTGRES_PASSWORD=flaskpass123
+      - POSTGRES_DB=tasksdb
+    ports:
+      - "5432:5432"
+    volumes:
+      # Persist database data (survives container restarts)
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U flaskuser -d tasksdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Flask backend service
+  web:
+    build: .
+    container_name: flask-app
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount current directory for development (hot reload)
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - PORT=5000
+      # Database connection settings
+      - DATABASE_URL=postgresql://flaskuser:flaskpass123@db:5432/tasksdb
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=flaskuser
+      - DB_PASSWORD=flaskpass123
+      - DB_NAME=tasksdb
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - app-network
+
+# Define volumes for data persistence
+volumes:
+  postgres_data:
+    driver: local
+
+# Define a network for services to communicate
+networks:
+  app-network:
+    driver: bridge
+
