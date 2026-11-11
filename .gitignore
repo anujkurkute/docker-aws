@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **/.terraform/
 *.tfstate
 *.tfstate.*
@@ -9,3 +10,30 @@ terraform.tfvars
 !.env.example
 *.pem
 *.key
+=======
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+.env
+.env.*
+!.env.example
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+>>>>>>> 3ed9da5a75e1373dd76964d1a75046d31fb3aebc
