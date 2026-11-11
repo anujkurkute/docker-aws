@@ -1,0 +1,30 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfplan
+crash.log
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash.log
+crash.*.log
+terraform.tfvars
+*.auto.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Jenkins and local files
+credentials.json
+.aws/

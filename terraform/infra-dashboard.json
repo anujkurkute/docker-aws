@@ -1,0 +1,177 @@
+{
+    "widgets":  [
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/EC2",
+                                                               "CPUUtilization",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "EC2 CPU Utilization",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  0,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "CWAgent",
+                                                               "mem_used_percent",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "EC2 Memory Utilization (%)",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  0,
+                        "type":  "metric",
+                        "x":  12,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "CWAgent",
+                                                               "disk_used_percent",
+                                                               "path",
+                                                               "/",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e",
+                                                               "device",
+                                                               "nvme0n1p1",
+                                                               "fstype",
+                                                               "xfs"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "EC2 Disk Utilization (%)",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  6,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "title":  "EC2 Network Traffic",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/EC2",
+                                                               "NetworkIn",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e",
+                                                               {
+                                                                   "stat":  "Sum",
+                                                                   "label":  "Network In"
+                                                               }
+                                                           ],
+                                                           [
+                                                               "AWS/EC2",
+                                                               "NetworkOut",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e",
+                                                               {
+                                                                   "stat":  "Sum",
+                                                                   "label":  "Network Out"
+                                                               }
+                                                           ]
+                                                       ],
+                                           "view":  "timeSeries",
+                                           "period":  300
+                                       },
+                        "y":  6,
+                        "type":  "metric",
+                        "x":  12,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/RDS",
+                                                               "CPUUtilization",
+                                                               "DBInstanceIdentifier",
+                                                               "db-8byte-devops-postgres"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "RDS CPU Utilization",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  12,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/RDS",
+                                                               "DatabaseConnections",
+                                                               "DBInstanceIdentifier",
+                                                               "db-8byte-devops-postgres"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "RDS Database Connections",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  12,
+                        "type":  "metric",
+                        "x":  12,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/RDS",
+                                                               "FreeStorageSpace",
+                                                               "DBInstanceIdentifier",
+                                                               "db-8byte-devops-postgres"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "RDS Free Storage (Bytes)",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  18,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    }
+                ]
+}

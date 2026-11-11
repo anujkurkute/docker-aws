@@ -1,0 +1,105 @@
+{
+    "widgets":  [
+                    {
+                        "width":  24,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "title":  "Flask Application - Docker Logs",
+                                           "query":  "SOURCE \u0027/8byte-devops/app/docker\u0027 | fields @timestamp, @message | sort @timestamp desc | limit 50",
+                                           "view":  "table"
+                                       },
+                        "y":  0,
+                        "type":  "log",
+                        "x":  0,
+                        "height":  10
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/RDS",
+                                                               "DatabaseConnections",
+                                                               "DBInstanceIdentifier",
+                                                               "db-8byte-devops-postgres"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "RDS Database Connections",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  10,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "CWAgent",
+                                                               "mem_used_percent",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "EC2 Memory Utilization (%)",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  10,
+                        "type":  "metric",
+                        "x":  12,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/EC2",
+                                                               "CPUUtilization",
+                                                               "InstanceId",
+                                                               "i-05b20ba462bb89d6e"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "EC2 CPU Utilization",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  16,
+                        "type":  "metric",
+                        "x":  0,
+                        "height":  6
+                    },
+                    {
+                        "width":  12,
+                        "properties":  {
+                                           "region":  "ap-south-1",
+                                           "stat":  "Average",
+                                           "metrics":  [
+                                                           [
+                                                               "AWS/RDS",
+                                                               "FreeableMemory",
+                                                               "DBInstanceIdentifier",
+                                                               "db-8byte-devops-postgres"
+                                                           ]
+                                                       ],
+                                           "period":  300,
+                                           "title":  "RDS Freeable Memory",
+                                           "view":  "timeSeries"
+                                       },
+                        "y":  16,
+                        "type":  "metric",
+                        "x":  12,
+                        "height":  6
+                    }
+                ]
+}
